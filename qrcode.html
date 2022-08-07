@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js" integrity="sha512-01CJ9/g7e8cUmY0DFTMcUw/ikS799FHiOA0eyHsUWfOetgbx/t6oV4otQ5zXKQyIrQGTHSmRVPIgrgLcZi/WMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>QR Code Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html{
+            background-image: url("https://media.istockphoto.com/photos/white-desk-office-with-laptop-smartphone-and-other-work-supplies-with-picture-id1283506462?b=1&k=20&m=1283506462&s=170667a&w=0&h=CNZMLfz9nQ398KYp8ORE8Q2uYxacGCQEpLznSbLuJgw=");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        body {  
+            width: 27%;
+            height: 100vh;
+            margin: auto;
+            display: flex;
+            place-items:center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        h1 {
+            font-family: sans-serif;
+            margin-bottom: 10px;
+        }
+        
+        input {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 20px;
+            border: 2px solid steelblue;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            outline: none;
+        }
+        button{
+            width: 200px;
+            height: 30px;
+            margin-top: 20px;
+            background-color: red;
+            opacity: 0.5;
+            border-radius: 20px;
+            border-style: none;
+        }
+        button:hover{
+            background-color: red;
+            opacity: 0.7;
+            font-size: 1rem;
+            color: white;
+        }
+        button:active{
+            background-color: black;
+            color: whitesmoke;
+        }
+        /* @media (max-width:600px) {
+            button{
+                width
+            }
+        } */
+        </style>
+</head>
+<body>
+    <h1>QR Code Generator</h1>
+  <input 
+    type="text" 
+    spellcheck="false"
+    id="text"
+    value=""
+    placeholder="type.."
+    autofocus
+  />
+  <div id="qrcode"></div>
+  <button onclick="shot()"> Download </button>
+  <h2 id="downloaded"></h2>
+  
+  <script type="text/javascript">
+    const downMes = document.getElementById('downloaded')
+    const qrcode = document.getElementById("qrcode");
+    const textInput = document.getElementById("text");
+    let change = ""
+    const qr = new QRCode(qrcode);
+    qr.makeCode(textInput.value.trim());
+    textInput.oninput = (e) => {
+    qr.makeCode(e.target.value.trim());
+    change = e.target.value.trim();
+    console.log()
+};
+function shot(){
+    domtoimage.toJpeg(qrcode, { quality: 0.95 })
+    .then(function (dataUrl) {
+        var link = document.createElement('a');
+        link.download = `${change}QR.jpeg`;
+        link.href = dataUrl;
+        link.click();
+        downMes.innerHTML=`<h3>QR downloded </h3>`
+        
+    });
+
+}
+
+
+    
+    </script>
+</body>
+</html>
